@@ -1,7 +1,6 @@
 package com.pluralsight;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Dealership {
 
@@ -49,25 +48,25 @@ public class Dealership {
 
     /*---------------FUNCTIONS---------------*/
 
-    public List<Vehicle> getVehiclesByPrice(double min, double max){
+    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max){
         return null;
     }
-    public List<Vehicle> getVehiclesByMakeModel(String make, String model){
+    public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model){
         return null;
     }
-    public List<Vehicle> getVehiclesByYear(int min, int max){
+    public ArrayList<Vehicle> getVehiclesByYear(int min, int max){
         return null;
     }
-    public List<Vehicle> getVehiclesByColor(String color){
+    public ArrayList<Vehicle> getVehiclesByColor(String color){
         return null;
     }
-    public List<Vehicle> getVehiclesByMileage(int min, int max){
+    public ArrayList<Vehicle> getVehiclesByMileage(int min, int max){
         return null;
     }
-    public List<Vehicle> getVehiclesByType(String vehicleType){
+    public ArrayList<Vehicle> getVehiclesByType(String vehicleType){
         return null;
     }
-    public List<Vehicle> getAllVehicles(){
+    public ArrayList<Vehicle> getAllVehicles(){
         return inventory;
     }
     public void addVehicle(Vehicle vehicle){

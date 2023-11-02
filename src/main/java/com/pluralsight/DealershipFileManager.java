@@ -5,6 +5,20 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class DealershipFileManager {
+    /*---------------VARIABLES---------------*/
+
+    //CODE HERE
+
+    /*--------------CONSTRUCTORS-------------*/
+
+    //CODE HERE
+
+    /*------------GETTERS/SETTERS------------*/
+
+    //CODE HERE
+
+    /*---------------FUNCTIONS---------------*/
+
     public Dealership getDealership(){
         Dealership dealership = null;
         try {
