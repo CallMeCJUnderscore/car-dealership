@@ -107,10 +107,10 @@ public class UserInterface {
             String formattedYear = String.format("%-4d", vehicle.getYear());
             String formattedMake = String.format("%-10.10s", vehicle.getMake());
             String formattedModel = String.format("%-11.11s", vehicle.getModel());
-            String formattedColor = String.format("%-6s.6s", vehicle.getColor());
+            String formattedColor = String.format("%-6s", vehicle.getColor());
             String formattedOdometer = String.format("%-6d", vehicle.getOdometer());
             String formattedPrice = String.format("%-6.2f", vehicle.getPrice());
-            formattedPrice = String.format("$%8.8s", formattedPrice);
+            formattedPrice = String.format("$%9.9s", formattedPrice);
             String output = String.format("|%s|%s|%s|%s|%s|%s|%s|", formattedVIN, formattedYear, formattedMake, formattedModel, formattedColor, formattedOdometer, formattedPrice);
             System.out.println(output);
             System.out.println("+-----+----+----------+-----------+------+------+----------+");
