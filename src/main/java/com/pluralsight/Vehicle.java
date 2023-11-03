@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.util.Comparator;
+
 public class Vehicle {
 
 
@@ -95,6 +97,30 @@ public class Vehicle {
 
     /*---------------FUNCTIONS---------------*/
 
-    //CODE HERE
+    public static Comparator<Vehicle> compareYear(){
+        return Comparator.comparing(Vehicle::getYear)
+                .thenComparing(Vehicle::getVin);
+    }
+    public static Comparator<Vehicle> compareColor(){
+        return Comparator.comparing(Vehicle::getColor)
+                .thenComparing(Vehicle::getVin);
+    }
+    public static Comparator<Vehicle> comparePrice(){
+        return Comparator.comparing(Vehicle::getPrice)
+                .thenComparing(Vehicle::getVin);
+    }
+    public static Comparator<Vehicle> compareMileage(){
+        return Comparator.comparing(Vehicle::getOdometer)
+                .thenComparing(Vehicle::getVin);
+    }
 
+    public static Comparator<Vehicle> compareMakeModel(){
+        return Comparator.comparing(Vehicle::getMake)
+                .thenComparing(Vehicle::getModel)
+                .thenComparing(Vehicle::getVin);
+    }
+
+    public static Comparator<Vehicle> compareVIN(){
+        return Comparator.comparing(Vehicle::getVin);
+    }
 }

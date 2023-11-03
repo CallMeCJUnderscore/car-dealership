@@ -1,5 +1,6 @@
 package com.pluralsight;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Dealership {
@@ -48,31 +49,83 @@ public class Dealership {
 
     /*---------------FUNCTIONS---------------*/
 
-    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max){
-        return null;
+    public List<Vehicle> getVehiclesByPrice(double min, double max){
+        List<Vehicle> found = new ArrayList<>(inventory);
+        if (min != -1) {found.removeIf(vehicle -> vehicle.getPrice()<min);}
+        if (max != -1) {found.removeIf(vehicle -> vehicle.getPrice()>max);}
+
+        if(found.isEmpty()){
+            found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
+        }
+
+        found.sort(Vehicle.comparePrice());
+        return found;
     }
-    public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model){
-        return null;
+    public List<Vehicle> getVehiclesByMakeModel(String make, String model){
+        List<Vehicle> found = new ArrayList<>(inventory);
+        found.removeIf(vehicle -> !vehicle.getMake().equalsIgnoreCase(make));
+        found.removeIf(vehicle -> !vehicle.getModel().equalsIgnoreCase(model));
+
+        if(found.isEmpty()){
+            found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
+        }
+
+        found.sort(Vehicle.compareMakeModel());
+        return found;
     }
-    public ArrayList<Vehicle> getVehiclesByYear(int min, int max){
-        return null;
+    public List<Vehicle> getVehiclesByYear(int min, int max){
+        List<Vehicle> found = new ArrayList<>(inventory);
+        found.removeIf(vehicle -> vehicle.getPrice()<min);
+        found.removeIf(vehicle -> vehicle.getPrice()>max);
+
+        if(found.isEmpty()){
+            found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
+        }
+
+        found.sort(Vehicle.compareYear());
+        return found;
     }
-    public ArrayList<Vehicle> getVehiclesByColor(String color){
-        return null;
+    public List<Vehicle> getVehiclesByColor(String color){
+        List<Vehicle> found = new ArrayList<>(inventory);
+        found.removeIf(vehicle -> !vehicle.getColor().equalsIgnoreCase(color));
+
+        if(found.isEmpty()){
+            found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
+        }
+
+        found.sort(Vehicle.compareColor());
+        return found;
     }
-    public ArrayList<Vehicle> getVehiclesByMileage(int min, int max){
-        return null;
+    public List<Vehicle> getVehiclesByMileage(int min, int max){
+        List<Vehicle> found = new ArrayList<>(inventory);
+        found.removeIf(vehicle -> vehicle.getOdometer()<min);
+        found.removeIf(vehicle -> vehicle.getOdometer()>max);
+
+        if(found.isEmpty()){
+            found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
+        }
+
+        found.sort(Vehicle.compareMileage());
+        return found;
     }
-    public ArrayList<Vehicle> getVehiclesByType(String vehicleType){
-        return null;
+    public List<Vehicle> getVehiclesByType(String vehicleType){
+        List<Vehicle> found = new ArrayList<>(inventory);
+        found.removeIf(vehicle -> !vehicle.getVehicleType().equalsIgnoreCase(vehicleType));
+
+        if(found.isEmpty()){
+            found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
+        }
+        found.sort(Vehicle.compareMakeModel());
+        return found;
     }
-    public ArrayList<Vehicle> getAllVehicles(){
+    public List<Vehicle> getAllVehicles(){
+        inventory.sort(Vehicle.compareVIN());
         return inventory;
     }
     public void addVehicle(Vehicle vehicle){
         inventory.add(vehicle);
     }
     public void removeVehicle(Vehicle vehicle){
-
+        inventory.remove(vehicle);
     }
 }

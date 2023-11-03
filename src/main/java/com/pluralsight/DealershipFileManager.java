@@ -1,8 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class DealershipFileManager {
     /*---------------VARIABLES---------------*/
@@ -38,6 +36,7 @@ public class DealershipFileManager {
                 double price = Double.parseDouble(tokens[7]);
                 dealership.addVehicle(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price));
             }
+            bufferedReader.close();
         }
         catch (IOException e){
             System.out.println("ERROR: COULD NOT CREATE FILE READER");
@@ -52,6 +51,19 @@ public class DealershipFileManager {
     }
 
     public void saveDealership(Dealership dealership){
-
+        try{
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory.csv"));
+            String output = String.format("%s|%s|%s", dealership.getName(), dealership.getAddress(), dealership.getPhone());
+            bufferedWriter.write(output);
+            for(Vehicle vehicle:dealership.getAllVehicles()){
+                output=String.format("%s|%s|%s|%s|%s|%s|%s|%s%n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
+                bufferedWriter.write(output);
+            }
+            bufferedWriter.close();
+        }
+        catch (Exception e){
+            System.out.println("ERROR: Could not save Inventory!");
+            e.printStackTrace();
+        }
     }
 }
