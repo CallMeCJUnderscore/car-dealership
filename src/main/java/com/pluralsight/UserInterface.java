@@ -3,7 +3,6 @@ package com.pluralsight;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.*;
-import java.util.Scanner;
 
 public class UserInterface {
     /*---------------VARIABLES---------------*/
@@ -76,11 +75,13 @@ public class UserInterface {
     }
 
     private void displayVehicles(List<Vehicle> inventory){
+        System.out.println();
         System.out.println("""
                             +-----+----+----------+-----------+------+------+------+----------+
                             | VIN |YEAR|   MAKE   |   MODEL   | TYPE |COLOR |MILES |  PRICE   |
                             +-----+----+----------+-----------+------+------+------+----------+""");
         for(Vehicle vehicle:inventory){
+            //negative sign left justifies, first number sets padding, second number sets max width
             String formattedVIN = String.format("%-5d", vehicle.getVin());
             String formattedYear = String.format("%-4d", vehicle.getYear());
             String formattedMake = String.format("%-10.10s", vehicle.getMake());
@@ -88,8 +89,8 @@ public class UserInterface {
             String formattedType = String.format("%-6s",vehicle.getVehicleType());
             String formattedColor = String.format("%-6s", vehicle.getColor());
             String formattedOdometer = String.format("%-6d", vehicle.getOdometer());
-            String formattedPrice = String.format("%-6.2f", vehicle.getPrice());
-            formattedPrice = String.format("$%9.9s", formattedPrice);
+            String formattedPrice = String.format("%-6.2f", vehicle.getPrice()); //Max of 6 numbers before decimal, 2 after
+            formattedPrice = String.format("$%9.9s", formattedPrice); //Done twice to add needed padding to value after converting from double
             String output = String.format("|%s|%s|%s|%s|%s|%s|%s|%s|", formattedVIN, formattedYear, formattedMake, formattedModel,
                     formattedType, formattedColor, formattedOdometer, formattedPrice);
             System.out.println(output);
@@ -108,6 +109,7 @@ public class UserInterface {
         double minPrice = scanner.nextDouble();
         System.out.print("Please type an upper bound for the price (Type -1 to ignore): $");
         double maxPrice = scanner.nextDouble();
+        scanner.nextLine(); //Eat leftover newline to not cause problems
         searched = dealership.getVehiclesByPrice(minPrice, maxPrice);
         displayVehicles(searched);
     }
@@ -124,10 +126,12 @@ public class UserInterface {
         int minYear = scanner.nextInt();
         System.out.print("Please type an upper bound for the year: ");
         int maxYear = scanner.nextInt();
+        scanner.nextLine(); //Eat leftover newline to not cause problems
         searched = dealership.getVehiclesByYear(minYear, maxYear);
         displayVehicles(searched);
     }
     private void processGetByColorRequest(){
+        //This search is much more complex than the others because I originally overcomplicated things, and Raymond advised me as such after this was completed.
         String color = "";
         do {
             validSearch = false;
@@ -149,6 +153,7 @@ public class UserInterface {
         displayVehicles(searched);
     }
     private void processGetByMileageRequest(){
+        //This search is much more complex than the others because I originally overcomplicated things, and Raymond advised me as such after this was completed.
         try {
             int minMileage = 0;
             int maxMileage = 0;
@@ -156,25 +161,25 @@ public class UserInterface {
             do {
                 System.out.print("Please type a lower bound for the mileage (Type -1 to ignore): ");
                 input = scanner.nextLine();
-                if (input.isEmpty() || input.matches("\\D+")) {
+                if (input.isEmpty() || input.matches("\\D+")) { //Input must contain only numbers
                     System.out.println("ERROR: Term must be a number! Ignoring input...");
                 } else {
                     minMileage = Integer.parseInt(input);
-                    validSearch = true;
+                    validSearch = true; //Allows loop to end
                 }
 
                 System.out.print("Please type an upper bound for the mileage (Type -1 to ignore): ");
                 input = scanner.nextLine();
-                if (input.isEmpty() || input.matches("\\D+")) {
+                if (input.isEmpty() || input.matches("\\D+")) { //Input must contain only numbers
                     System.out.println("ERROR: Term must be a number! Ignoring input...");
                 } else {
                     maxMileage = Integer.parseInt(input);
-                    validSearch = true;
+                    validSearch = true; //Allows loop to end
                 }
 
-                if(maxMileage == -1 && minMileage == -1){
+                if(maxMileage == -1 && minMileage == -1){ //Error if both terms are ignored
                     System.out.println("ERROR: You need to supply at least one search term!");
-                    validSearch = false;
+                    validSearch = false; //Resets loop checker
                 }
             } while (!validSearch);
             searched = dealership.getVehiclesByMileage(minMileage, maxMileage);
@@ -201,7 +206,7 @@ public class UserInterface {
         int vin = scanner.nextInt();
         System.out.print("Please type the year of the new vehicle:");
         int year = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); //Eat leftover newline to not cause problems
         System.out.print("Please type the make of the new vehicle:");
         String make = scanner.nextLine();
         System.out.print("Please type the model of the new vehicle:");
@@ -214,18 +219,11 @@ public class UserInterface {
         int odometer = scanner.nextInt();
         System.out.print("Please type the price of the new vehicle:");
         double price = scanner.nextDouble();
+        scanner.nextLine(); //Eat leftover newline to not cause problems
+
         Vehicle vehicle = new Vehicle(vin, year, make, model, type, color,odometer, price);
         dealership.addVehicle(vehicle);
-        try{
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory.csv", true));
-            String output = String.format("%d|%d|%s|%s|%s|%s|%d|%f%n", vin,year,make,model,type,color,odometer,price);
-            bufferedWriter.write(output);
-            bufferedWriter.close();
-        }
-        catch (Exception e){
-            System.out.println("ERROR: Could not write to Inventory file!");
-            e.printStackTrace();
-        }
+        System.out.println("Vehicle added!");
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         dealershipFileManager.saveDealership(dealership);
     }
@@ -233,27 +231,18 @@ public class UserInterface {
         try{
             System.out.print("Please type the VIN of the vehicle to remove: ");
             int vin = scanner.nextInt();
+            scanner.nextLine(); //Eat leftover newline to not cause problems
             for(Vehicle vehicle : dealership.getAllVehicles()){
                 if(vehicle.getVin() == vin){
                     dealership.removeVehicle(vehicle);
+                    System.out.println("Vehicle removed!");
                 }
             }
-
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory.csv"));
-            String output = String.format("%s|%s|%s", dealership.getName(), dealership.getAddress(), dealership.getPhone());
-            bufferedWriter.write(output);
-            for(Vehicle vehicle:dealership.getAllVehicles()){
-                output=String.format("%s|%s|%s|%s|%s|%s|%s|%s%n", vehicle.getVin(), vehicle.getYear(), vehicle.getModel(),
-                        vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
-                bufferedWriter.write(output);
-            }
-            bufferedWriter.close();
         }
         catch (Exception e){
             System.out.println("ERROR: Could not remove from Inventory!");
             e.printStackTrace();
         }
-
 
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         dealershipFileManager.saveDealership(dealership);

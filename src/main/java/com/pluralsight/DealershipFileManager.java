@@ -21,9 +21,13 @@ public class DealershipFileManager {
         Dealership dealership = null;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("inventory.csv"));
+
+            //Parses first line of file for dealership info
             String input = bufferedReader.readLine();
             String[] dealershipInfo = input.split("\\|");
             dealership = new Dealership(dealershipInfo[0], dealershipInfo[1],dealershipInfo[2]);
+
+            //Parses rest of file for cars
             while ((input = bufferedReader.readLine()) != null){
                 String[] tokens = input.split("\\|");
                 int vin = Integer.parseInt(tokens[0]);
@@ -50,13 +54,14 @@ public class DealershipFileManager {
         return dealership;
     }
 
-    public void saveDealership(Dealership dealership){
+    public void saveDealership(Dealership dealership){ //Rewrites dealership info and inventory to file
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory.csv"));
-            String output = String.format("%s|%s|%s", dealership.getName(), dealership.getAddress(), dealership.getPhone());
+            String output = String.format("%s|%s|%s%n", dealership.getName(), dealership.getAddress(), dealership.getPhone());
             bufferedWriter.write(output);
             for(Vehicle vehicle:dealership.getAllVehicles()){
-                output=String.format("%s|%s|%s|%s|%s|%s|%s|%s%n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
+                output=String.format("%s|%s|%s|%s|%s|%s|%s|%s%n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(),
+                        vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
                 bufferedWriter.write(output);
             }
             bufferedWriter.close();

@@ -1,7 +1,6 @@
 package com.pluralsight;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Dealership {
 
@@ -50,11 +49,11 @@ public class Dealership {
     /*---------------FUNCTIONS---------------*/
 
     public List<Vehicle> getVehiclesByPrice(double min, double max){
-        List<Vehicle> found = new ArrayList<>(inventory);
-        if (min != -1) {found.removeIf(vehicle -> vehicle.getPrice()<min);}
-        if (max != -1) {found.removeIf(vehicle -> vehicle.getPrice()>max);}
+        List<Vehicle> found = new ArrayList<>(inventory); //Generate temp table to perform filtering on
+        if (min != -1) {found.removeIf(vehicle -> vehicle.getPrice()<min);} //If min is used, removes from results table if a given vehicle's price is below the min
+        if (max != -1) {found.removeIf(vehicle -> vehicle.getPrice()>max);} //If max is used, removes from results table if a given vehicle's price is above the max
 
-        if(found.isEmpty()){
+        if(found.isEmpty()){ //If no valid entries found, adds message informing such to results table
             found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
         }
 
@@ -62,11 +61,11 @@ public class Dealership {
         return found;
     }
     public List<Vehicle> getVehiclesByMakeModel(String make, String model){
-        List<Vehicle> found = new ArrayList<>(inventory);
-        found.removeIf(vehicle -> !vehicle.getMake().equalsIgnoreCase(make));
-        found.removeIf(vehicle -> !vehicle.getModel().equalsIgnoreCase(model));
+        List<Vehicle> found = new ArrayList<>(inventory); //Generate temp table to perform filtering on
+        found.removeIf(vehicle -> !vehicle.getMake().equalsIgnoreCase(make)); //Removes vehicle from results table if not of given make
+        found.removeIf(vehicle -> !vehicle.getModel().equalsIgnoreCase(model)); //Removes vehicle from results table if not of given model
 
-        if(found.isEmpty()){
+        if(found.isEmpty()){ //If no valid entries found, adds message informing such to results table
             found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
         }
 
@@ -74,11 +73,11 @@ public class Dealership {
         return found;
     }
     public List<Vehicle> getVehiclesByYear(int min, int max){
-        List<Vehicle> found = new ArrayList<>(inventory);
-        found.removeIf(vehicle -> vehicle.getPrice()<min);
-        found.removeIf(vehicle -> vehicle.getPrice()>max);
+        List<Vehicle> found = new ArrayList<>(inventory); //Generate temp table to perform filtering on
+        found.removeIf(vehicle -> vehicle.getYear()<min); //Removes vehicle from results table if made before given year
+        found.removeIf(vehicle -> vehicle.getYear()>max); //Removes vehicle from results table if made after given year
 
-        if(found.isEmpty()){
+        if(found.isEmpty()){ //If no valid entries found, adds message informing such to results table
             found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
         }
 
@@ -86,10 +85,10 @@ public class Dealership {
         return found;
     }
     public List<Vehicle> getVehiclesByColor(String color){
-        List<Vehicle> found = new ArrayList<>(inventory);
-        found.removeIf(vehicle -> !vehicle.getColor().equalsIgnoreCase(color));
+        List<Vehicle> found = new ArrayList<>(inventory); //Generate temp table to perform filtering on
+        found.removeIf(vehicle -> !vehicle.getColor().equalsIgnoreCase(color));  //Removes vehicle from results table if not of given color
 
-        if(found.isEmpty()){
+        if(found.isEmpty()){ //If no valid entries found, adds message informing such to results table
             found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
         }
 
@@ -97,11 +96,11 @@ public class Dealership {
         return found;
     }
     public List<Vehicle> getVehiclesByMileage(int min, int max){
-        List<Vehicle> found = new ArrayList<>(inventory);
-        found.removeIf(vehicle -> vehicle.getOdometer()<min);
-        found.removeIf(vehicle -> vehicle.getOdometer()>max);
+        List<Vehicle> found = new ArrayList<>(inventory); //Generate temp table to perform filtering on
+        found.removeIf(vehicle -> vehicle.getOdometer()<min);  //Removes vehicle from results table if has less miles than min
+        found.removeIf(vehicle -> vehicle.getOdometer()>max);  //Removes vehicle from results table if has more miles than max
 
-        if(found.isEmpty()){
+        if(found.isEmpty()){ //If no valid entries found, adds message informing such to results table
             found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
         }
 
@@ -109,10 +108,10 @@ public class Dealership {
         return found;
     }
     public List<Vehicle> getVehiclesByType(String vehicleType){
-        List<Vehicle> found = new ArrayList<>(inventory);
-        found.removeIf(vehicle -> !vehicle.getVehicleType().equalsIgnoreCase(vehicleType));
+        List<Vehicle> found = new ArrayList<>(inventory); //Generate temp table to perform filtering on
+        found.removeIf(vehicle -> !vehicle.getVehicleType().equalsIgnoreCase(vehicleType));   //Removes vehicle from results table if not of given type
 
-        if(found.isEmpty()){
+        if(found.isEmpty()){ //If no valid entries found, adds message informing such to results table
             found.add(new Vehicle(-1,-1,"ERROR", "NONE FOUND", "NONE", "NONE", -1, -1));
         }
         found.sort(Vehicle.compareMakeModel());
